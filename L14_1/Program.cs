@@ -8,7 +8,7 @@ namespace L14_1
 {
     public class Program
     {
-        static bool fillQueue(ref Queue<List<Car>> queue, int length)
+        public static bool fillQueue(ref Queue<List<Car>> queue, int length)
         {
             Random random = new Random();
             var carTypes = new List<Type> { typeof(Car), typeof(PassengerCar), typeof(SUV), typeof(Truck) };
@@ -27,7 +27,7 @@ namespace L14_1
             Console.WriteLine("\nЗавод был успешно создан!");
             return true;
         }
-        static void PrintQueue(Queue<List<Car>> queue)
+        public static void PrintQueue(Queue<List<Car>> queue)
         {
             if (queue.Count != 0)
             {
@@ -49,22 +49,22 @@ namespace L14_1
                 Console.WriteLine("Завод не создан!");
             }
         }
-        static List<Car> ChooseAllAutosReleasedAfter2000_EM(Queue<List<Car>> queue)
+        public static List<Car> ChooseAllAutosReleasedAfter2000_EM(Queue<List<Car>> queue)
         {
             return queue.SelectMany(x => x.Where(y => y.Year > 2000)).ToList();
         }
-        static List<Car> ChooseAllAutosReleasedAfter2000_LINQ(Queue<List<Car>> queue)
+        public static List<Car> ChooseAllAutosReleasedAfter2000_LINQ(Queue<List<Car>> queue)
         {
             return (from list in queue
                     from item in list
                     where item.Year > 2000
                     select item).ToList();
         }
-        static List<Car> FindIntersectionsInWorkshops_EM(Queue<List<Car>> queue)
+        public static List<Car> FindIntersectionsInWorkshops_EM(Queue<List<Car>> queue)
         {
             return queue.ElementAt(0).Intersect(queue.ElementAt(1)).Intersect(queue.ElementAt(2)).ToList();
         }
-        static List<Car> FindIntersectionsInWorkshops_LINQ(Queue<List<Car>> queue)
+        public static List<Car> FindIntersectionsInWorkshops_LINQ(Queue<List<Car>> queue)
         {
             return ((from car in queue.ElementAt(0)
                      select car)
@@ -73,31 +73,31 @@ namespace L14_1
                           .Intersect(from car in queue.ElementAt(2)
                                      select car)).ToList();
         }
-        static double AverageReleaseYearOfCars_EM(Queue<List<Car>> queue)
+        public static double AverageReleaseYearOfCars_EM(Queue<List<Car>> queue)
         {
             return queue.SelectMany(x => x).Average(car => car.Year);
         }
-        static double AverageReleaseYearOfCars_LINQ(Queue<List<Car>> queue)
+        public static double AverageReleaseYearOfCars_LINQ(Queue<List<Car>> queue)
         {
             return (from list in queue
                     from car in list
                     select car.Year).Average();
         }
-        static List<IGrouping<int, Car>> GroupByYear_EM(Queue<List<Car>> queue)
+        public static List<IGrouping<int, Car>> GroupByYear_EM(Queue<List<Car>> queue)
         {
             return queue.SelectMany(x => x).GroupBy(car => car.Year).ToList();
         }
-        static List<IGrouping<int, Car>> GroupByYear_LINQ(Queue<List<Car>> queue)
+        public static List<IGrouping<int, Car>> GroupByYear_LINQ(Queue<List<Car>> queue)
         {
             return (from list in queue
                     from car in list
                     group car by car.Year).ToList();
         }
-        static List<CarTypeCount> CarTypes_EM(Queue<List<Car>> queue)
+        public static List<CarTypeCount> CarTypes_EM(Queue<List<Car>> queue)
         {
             return queue.SelectMany(x => x).GroupBy(y=>y.GetType()).Select(z => new CarTypeCount { CarType = z.Key, TotalCount = z.Count() }).ToList();
         }
-        static List<CarTypeCount> CarTypes_LINQ(Queue<List<Car>> queue)
+        public static List<CarTypeCount> CarTypes_LINQ(Queue<List<Car>> queue)
         {
             var brandGroup = from list in queue
                              from car in list
@@ -174,7 +174,7 @@ namespace L14_1
                 return false;
             }
         }
-        static bool AddSameCarToAllWorkshops(ref Queue<List<Car>> queue)
+        public static bool AddSameCarToAllWorkshops(ref Queue<List<Car>> queue)
         {
             if (queue.Count > 0)
             {

@@ -3,7 +3,7 @@ using MyCollectionLibrary;
 using System.Threading.Channels;
 namespace L14_2
 {
-    internal class Program
+    public class Program
     {
         public static bool ProcessCarQueries<T>(
         MyCollection<Car> col,
@@ -37,7 +37,7 @@ namespace L14_2
                 return false;
             }
         }
-        static bool fillCollection(ref MyCollection<Car> col, int length)
+        public static bool fillCollection(ref MyCollection<Car> col, int length)
         {
             col = new MyCollection<Car>();
             Random random = new Random();
@@ -52,72 +52,72 @@ namespace L14_2
             Console.WriteLine("\nКоллекция была успешно создана!");
             return true;
         }
-        static List<Car> ChooseAllAutosReleasedAfter2000_EM(MyCollection<Car> col)
+        public static List<Car> ChooseAllAutosReleasedAfter2000_EM(MyCollection<Car> col)
         {
             return col.Select(x => x).Where(y => y.Year > 2000).ToList();
         }
-        static List<Car> ChooseAllAutosReleasedAfter2000_LINQ(MyCollection<Car> col)
+        public static List<Car> ChooseAllAutosReleasedAfter2000_LINQ(MyCollection<Car> col)
         {
             return (from car in col
                     where car.Year > 2000
                     select car).ToList();
         }
-        static int CountAllTrucks_EM(MyCollection<Car> col)
+        public static int CountAllTrucks_EM(MyCollection<Car> col)
         {
             return col.Where(x => x is Truck).Count();
         }
-        static int CountAllTrucks_LINQ(MyCollection<Car> col)
+        public static int CountAllTrucks_LINQ(MyCollection<Car> col)
         {
             return (from car in col
                     where car is Truck
                     select car).Count();
         }
-        static int PriceOfAllCars_EM(MyCollection<Car> col)
+        public static int PriceOfAllCars_EM(MyCollection<Car> col)
         {
             return col.Select(x => x.Price).Sum();
         }
-        static int PriceOfAllCars_LINQ(MyCollection<Car> col)
+        public static int PriceOfAllCars_LINQ(MyCollection<Car> col)
         {
             return (from car in col
                     select car.Price).Sum();
         }
-        static List<Car> NewestCars_EM(MyCollection<Car> col)
+        public static List<Car> NewestCars_EM(MyCollection<Car> col)
         {
             return col.Where(x => x.Year == col.Max(y => y.Year)).ToList();
         }
-        static List<Car> NewestCars_LINQ(MyCollection<Car> col)
+        public static List<Car> NewestCars_LINQ(MyCollection<Car> col)
         {
             return (from car in col
                     where car.Year == col.Max(c => c.Year)
                     select car).ToList();
         }
-        static List<Car> OldestCars_EM(MyCollection<Car> col)
+        public static List<Car> OldestCars_EM(MyCollection<Car> col)
         {
             return col.Where(x => x.Year == col.Min(y => y.Year)).ToList();
         }
-        static List<Car> OldestCars_LINQ(MyCollection<Car> col)
+        public static List<Car> OldestCars_LINQ(MyCollection<Car> col)
         {
             return (from car in col
                     where car.Year == col.Min(c => c.Year)
                     select car).ToList();
         }
-        static double AveragePriceOfPassengerCars_EM(MyCollection<Car> col)
+        public static double AveragePriceOfPassengerCars_EM(MyCollection<Car> col)
         {
             var prices = col.Where(x => x is PassengerCar).Select(y => y.Price);
             return prices.Any() ? prices.Average(c => c) : 0;
         }
-        static double AveragePriceOfPassengerCars_LINQ(MyCollection<Car> col)
+        public static double AveragePriceOfPassengerCars_LINQ(MyCollection<Car> col)
         {
             var prices = from car in col
                          where car is PassengerCar
                          select car.Price;
             return prices.Any() ? prices.Average(c => c) : 0;
         }
-        static List<IGrouping<int, Car>> GroupByYear_EM(MyCollection<Car> col)
+        public static List<IGrouping<int, Car>> GroupByYear_EM(MyCollection<Car> col)
         {
             return col.GroupBy(car => car.Year).ToList();
         }
-        static List<IGrouping<int, Car>> GroupByYear_LINQ(MyCollection<Car> col)
+        public static List<IGrouping<int, Car>> GroupByYear_LINQ(MyCollection<Car> col)
         {
             return (from car in col
                     group car by car.Year).ToList();
