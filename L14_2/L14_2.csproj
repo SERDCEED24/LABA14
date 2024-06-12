@@ -7,4 +7,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="CarsLibrary">
+      <HintPath>..\CarsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MyCollectionLibrary">
+      <HintPath>..\MyCollectionLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
