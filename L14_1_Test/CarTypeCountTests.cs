@@ -10,7 +10,7 @@ namespace L14_1_Test
         public void Property_CarType_ShouldSetAndGetCorrectly_CarTypeCount()
         {
             // Arrange
-            Type expectedType = typeof(string); // Выбранный тип для теста
+            Type expectedType = typeof(string);
             CarTypeCount carTypeCount = new CarTypeCount();
 
             // Act
