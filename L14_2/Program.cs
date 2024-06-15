@@ -122,25 +122,80 @@ namespace L14_2
             return (from car in col
                     group car by car.Year).ToList();
         }
+        public static void PrintNonEmptyEntries(MyCollection<Car> collection)
+        {
+            if (collection.Count == 0)
+            {
+                Console.WriteLine("Коллекция не создана!");
+            }
+            else
+                collection.ForEach(item => Console.WriteLine(item));
+        }
+        public static void PrintCol(MyCollection<Car> collection)
+        {
+            if (collection.Count == 0)
+            {
+                Console.WriteLine("Коллекция не создана!");
+            }
+            else
+                collection.Print();
+        }
+        public static void LittleDemo()
+        {
+            MyCollection<Car> col1 = new MyCollection<Car>(3);
+            MyCollection<Car> col2 = new MyCollection<Car>(3);
+            Console.WriteLine("Маленькая демонстрация собственных методов расширения:\n");
+            Console.WriteLine("Первая коллекция (только полные ячейки):");
+            col1.ForEach(x => Console.WriteLine(x));
+            Console.WriteLine("\nВторая коллекция (только полные ячейки):");
+            col2.ForEach(x => Console.WriteLine(x));
+            Console.WriteLine("\nИх склейка методом расширения Glue (только полные ячейки):");
+            MyCollection<Car> col3 = col1.Glue(col2);
+            col3.ForEach(x => Console.WriteLine(x));
+            Console.WriteLine("\nВведите элемент, чтобы проверить есть ли он в первой коллекции. Если его нет, он добавится (InCollectionOrAdd):");
+            Car newCar = new Car();
+            newCar.Init();
+            if (col1.InCollectionOrAdd(newCar))
+            {
+                Console.WriteLine("\nЭлемент уже есть в коллекции!");
+            }
+            else
+            {
+                Console.WriteLine("\nЭлемент был добавлен в коллекцию.");
+            }
+            Console.WriteLine("\nПервая коллекция (только полные ячейки):");
+            col1.ForEach(x => Console.WriteLine(x));
+            Console.WriteLine("\nВведите элемент из первой коллекции для его замены на рандомный:");
+            Car item = new Car();
+            Car replace = new Car();
+            item.Init();
+            replace.RandomInit();
+            if (col1.Replace(newCar, new Car()))
+            {
+                Console.WriteLine("\nЭлемент был успешно заменён.");
+            }
+        }
         static void Main(string[] args)
         {
             string Menu = "\nВыберите действие с хеш-таблицей:\n" +
                          "1. Создать коллекцию машин.\n" +
                          "2. Распечатать коллекцию.\n" +
-                         "3. Выбрать все автомобили, выпущенные после 2000 года (Where).\n" +
-                         "4. Посчитать кол-во грузовиков (Count).\n" +
-                         "5. Посчитать суммарную стоимость всех машин (Sum).\n" +
-                         "6. Найти самые новые автомобили (Max).\n" +
-                         "7. Найти самый старый автомобиль (Min).\n" +
-                         "8. Найти среднюю цену среди всех легковых автомобилей (Average).\n" +
-                         "9. Сгруппировать автомобили по году выпуска (Group By).\n" +
-                         "10. Выход.\n";
+                         "3. Распечатать все непустые ячейки коллекции (собственный ForEach).\n" +
+                         "4. Выбрать все автомобили, выпущенные после 2000 года (Where).\n" +
+                         "5. Посчитать кол-во грузовиков (Count).\n" +
+                         "6. Посчитать суммарную стоимость всех машин (Sum).\n" +
+                         "7. Найти самые новые автомобили (Max).\n" +
+                         "8. Найти самый старый автомобиль (Min).\n" +
+                         "9. Найти среднюю цену среди всех легковых автомобилей (Average).\n" +
+                         "10. Сгруппировать автомобили по году выпуска (Group By).\n" +
+                         "11. Маленькое демо для собственных методов расширения.\n" +
+                         "12. Выход.\n";
             MyCollection<Car> collection = new MyCollection<Car>();
             int response;
             do
             {
                 Console.WriteLine(Menu);
-                response = VHS.Input("Ошибка! Введите целое число от 1 до 7!", x => 1 <= x && x <= 10);
+                response = VHS.Input("Ошибка! Введите целое число от 1 до 7!", x => 1 <= x && x <= 12);
                 Console.WriteLine();
                 try
                 {
@@ -153,9 +208,12 @@ namespace L14_2
                                 VHS.Input("Ошибка! Введите натуральное число больше 1!", x => 1 < x));
                             break;
                         case 2:
-                            collection.Print();
+                            PrintCol(collection);
                             break;
                         case 3:
+                            PrintNonEmptyEntries(collection);
+                            break;
+                        case 4:
                             ProcessCarQueries(
                                 collection,
                                 ChooseAllAutosReleasedAfter2000_EM,
@@ -166,7 +224,7 @@ namespace L14_2
                                 "Машин выпушенных с 2000 года не было найдено!"
                             );
                             break;
-                        case 4:
+                        case 5:
                             ProcessCarQueries(
                                 collection,
                                 CountAllTrucks_EM,
@@ -177,7 +235,7 @@ namespace L14_2
                                 "Грузовиков не было найдено!"
                             );
                             break;
-                        case 5:
+                        case 6:
                             ProcessCarQueries(
                                 collection,
                                 PriceOfAllCars_EM,
@@ -188,7 +246,7 @@ namespace L14_2
                                 "Суммарная стоимость не была найдена!"
                             );
                             break;
-                        case 6:
+                        case 7:
                             ProcessCarQueries(
                                 collection,
                                 NewestCars_EM,
@@ -199,7 +257,7 @@ namespace L14_2
                                 "Новейших машин нет!"
                             );
                             break;
-                        case 7:
+                        case 8:
                             ProcessCarQueries(
                                 collection,
                                 OldestCars_EM,
@@ -210,7 +268,8 @@ namespace L14_2
                                 "Самых старых машин нет!"
                             );
                             break;
-                        case 8:
+
+                        case 9:
                             ProcessCarQueries(
                                 collection,
                                 AveragePriceOfPassengerCars_EM,
@@ -221,7 +280,7 @@ namespace L14_2
                                 "Легковых машин нет!"
                             );
                             break;
-                        case 9:
+                        case 10:
                             ProcessCarQueries(
                                 collection,
                                 GroupByYear_EM,
@@ -232,13 +291,17 @@ namespace L14_2
                                 "Группировку невозможно выполнить!"
                             );
                             break;
+                        case 11:
+                            LittleDemo();
+                            break;
+
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
-            } while (response != 10);
+            } while (response != 12);
         }
     }
 }
